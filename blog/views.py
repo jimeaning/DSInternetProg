@@ -1,3 +1,4 @@
+# blog 아래 있는 views.py
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 

@@ -1,3 +1,5 @@
+# blog 아래 있는 urls.py
+
 from django.urls import path
 from . import views
 

@@ -1,3 +1,8 @@
+# blog 아래 있는 models
+# model.py 작성한 후
+# python manage.py makemigrations
+# python manage.py migrate
+
 from django.db import models
 import os
 

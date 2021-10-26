@@ -1,3 +1,4 @@
+# single_pages 아래 있는 views.py
 from django.shortcuts import render
 
 # Create your views here.
