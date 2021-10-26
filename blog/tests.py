@@ -1,11 +1,14 @@
 from django.test import TestCase,Client
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
 from .models import Post
 
 # Create your tests here.
 class TestView(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user_james = User.objects.create_user(username='James', password='somepassword')
+        self.user_trump = User.objects.create_user(username='Trump', password='somepassword')
 
     def navbar_test(self, soup):
         # 네비게이션바가 있다
@@ -47,11 +50,13 @@ class TestView(TestCase):
         # 포스트(게시물)이 2개 존재하는 경우
         post_001 = Post.objects.create(
             title='첫 번째 포스트입니다.',
-            content='Hello World!!! We are the world...'
+            content='Hello World!!! We are the world...',
+            author = self.user_james,
         )
         post_002 = Post.objects.create(
             title='두 번째 포스트입니다.',
-            content='1등이 전부는 아니잖아요'
+            content='1등이 전부는 아니잖아요',
+            author = self.user_trump
         )
         self.assertEqual(Post.objects.count(),2)
 
@@ -65,6 +70,9 @@ class TestView(TestCase):
         self.assertIn(post_001.title, main_area.text)
         self.assertIn(post_002.title, main_area.text)
         self.assertNotIn('아직 게시물이 없습니다.', main_area.text)
+
+        self.assertIn(self.user_james.username.upper(), main_area.text)
+        self.assertIn(self.user_trump.username.upper(), main_area.text)
 
     def test_post_detail(self):
         # 포스트 하나
